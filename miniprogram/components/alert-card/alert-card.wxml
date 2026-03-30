@@ -1,0 +1,34 @@
+<!-- components/alert-card/alert-card.wxml -->
+<view class="chat-msg ai">
+  <view class="msg-avatar">🔫</view>
+  <view class="bubble">
+    <text class="alert-title">🔔 今日智能提醒</text>
+
+    <view class="alert-item danger" data-type="danger" bindtap="onTap">
+      <text class="alert-emoji">⚠️</text>
+      <view class="alert-text">
+        <text class="alert-h4">3件限时武器明天到期！</text>
+        <text class="alert-p">火麒麟-AK47×1、黑龙-M4A1×1、翔龙-AWM×1</text>
+      </view>
+      <text class="alert-arr">›</text>
+    </view>
+
+    <view class="alert-item warn" data-type="warn" bindtap="onTap">
+      <text class="alert-emoji">💡</text>
+      <view class="alert-text">
+        <text class="alert-h4">发现省钻方案，可省 188💎</text>
+        <text class="alert-p">「英雄级武器」限时折扣性价比分析</text>
+      </view>
+      <text class="alert-arr">›</text>
+    </view>
+
+    <view class="alert-item info" data-type="info" bindtap="onTap">
+      <text class="alert-emoji">📊</text>
+      <view class="alert-text">
+        <text class="alert-h4">本周战绩报告已生成</text>
+        <text class="alert-p">KD提升至1.82，排位连胜5场</text>
+      </view>
+      <text class="alert-arr">›</text>
+    </view>
+  </view>
+</view>

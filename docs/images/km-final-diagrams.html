@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZhijiClaw KM 配图</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'PingFang SC',sans-serif;background:#f0f2f5;color:#1a1a2e;padding:40px 20px}
+.card{background:#fff;border-radius:20px;padding:36px 40px;margin:0 auto 48px;max-width:760px;box-shadow:0 1px 12px rgba(0,0,0,.06)}
+.card h2{font-size:18px;color:#666;margin-bottom:24px;font-weight:500}
+.n{display:inline-block;width:28px;height:28px;border-radius:8px;text-align:center;line-height:28px;font-size:13px;font-weight:700;color:#fff;margin-right:8px}
+.label{text-align:center;font-size:12px;color:#bbb;margin-top:12px}
+
+/* 演进 */
+.evo{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0}
+.es{text-align:center;padding:18px 12px;flex:1;min-width:130px}
+.es .ic{font-size:32px;margin-bottom:6px}
+.es h4{font-size:14px;margin-bottom:3px}
+.es p{font-size:11px;color:#888}
+.ea{font-size:22px;color:#ccc;flex-shrink:0}
+
+/* 三要素 */
+.tri{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.ti{flex:1;min-width:170px;max-width:210px;text-align:center;padding:22px 14px;border-radius:14px}
+.ti .ic{font-size:28px;margin-bottom:8px}
+.ti h4{font-size:14px;margin-bottom:4px}
+.ti p{font-size:11px;color:#666;line-height:1.5}
+.t1{background:#fff3e0}.t2{background:#e8f5e9}.t3{background:#e3f2fd}
+.tri-r{text-align:center;margin-top:16px}
+.tri-r span{display:inline-block;padding:10px 28px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-radius:12px;font-size:14px;font-weight:600}
+
+/* 记忆 */
+.mem{display:flex;flex-direction:column;gap:2px}
+.mr{display:flex;align-items:center;padding:14px 18px;gap:14px}
+.mr:first-child{border-radius:12px 12px 0 0}.mr:last-child{border-radius:0 0 12px 12px}
+.m1{background:#e3f2fd}.m2{background:#fff8e1}.m3{background:#e8f5e9}
+.mr .ic{font-size:22px;flex-shrink:0}
+.mr .info{flex:1}
+.mr .info h4{font-size:13px;margin-bottom:2px}
+.mr .info p{font-size:11px;color:#666}
+.mr .ttl{font-size:10px;background:rgba(0,0,0,.06);padding:3px 8px;border-radius:5px;white-space:nowrap}
+
+/* 时间线 */
+.tl{position:relative;padding-left:28px}
+.tl-line{position:absolute;left:11px;top:6px;bottom:6px;width:2px;background:#e0e0e0}
+.tl-i{position:relative;margin-bottom:18px}
+.tl-d{position:absolute;left:-22px;top:5px;width:10px;height:10px;border-radius:50%}
+.db{background:#74b9ff}.dg{background:#55efc4}.do{background:#fdcb6e}.dp{background:#fd79a8}
+.tl-i .date{font-size:10px;color:#aaa}
+.tl-i .msg{font-size:13px;margin-top:1px}
+.tl-i .sys{font-size:11px;color:#999;font-style:italic;margin-top:2px}
+
+/* 推送 */
+.push{display:flex;gap:14px;flex-wrap:wrap}
+.pc{flex:1;min-width:200px;padding:18px;border-radius:12px;text-align:center}
+.pc1{background:#f0f5ff;border:1.5px solid #adc6ff}
+.pc2{background:#f6ffed;border:1.5px solid #b7eb8f}
+.pc .ic{font-size:26px;margin-bottom:6px}
+.pc h4{font-size:13px;margin-bottom:3px}
+.pc p{font-size:11px;color:#666}
+
+/* 链路 */
+.ch{display:flex;flex-direction:column;align-items:center;gap:6px}
+.cs{display:flex;align-items:center;gap:12px;width:100%;max-width:460px}
+.cs .num{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0}
+.cs .txt{font-size:13px;flex:1}
+.cs .sub{font-size:11px;color:#999}
+.c1{background:#4c6ef5}.c2{background:#f59f00}.c3{background:#40c057}.c4{background:#be4bdb}.c5{background:#e64980}
+
+/* 部署 */
+.dep{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px}
+.dp-s{padding:10px 16px;border-radius:10px;font-size:12px;font-weight:500}
+.d1{background:#f5f5f5;color:#666}.d2{background:#e3f2fd;color:#1565c0}.d3{background:#fff3e0;color:#e65100}.d4{background:#e8f5e9;color:#2e7d32}.d5{background:#fce4ec;color:#c62828}
+.dp-a{color:#ccc;font-size:16px}
+
+/* checklist */
+.ck{list-style:none}
+.ck li{padding:9px 0;border-bottom:1px solid #f5f5f5;font-size:13px;display:flex;align-items:flex-start;gap:10px}
+.ck li:last-child{border-bottom:none}
+.bx{width:18px;height:18px;border:2px solid #ddd;border-radius:4px;flex-shrink:0;margin-top:1px}
+
+/* 全景 */
+.pano-top{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:12px}
+.pt{padding:10px 16px;border-radius:10px;font-size:13px;text-align:center}
+.pt1{background:#e3f2fd}.pt2{background:#f3e5f5}.pt3{background:#fff8e1}
+.pano-mid{padding:18px;background:#f8f9fa;border-radius:12px}
+.pano-mid h4{font-size:12px;color:#888;margin-bottom:8px}
+.pg{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:6px}
+.pg span{padding:7px 10px;border-radius:6px;font-size:11px;text-align:center}
+.g1{background:#e8f5e9}.g2{background:#fff3e0}.g3{background:#fce4ec}.g4{background:#e3f2fd}.g5{background:#f3e5f5}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h2><span class="n" style="background:#4c6ef5">1</span>产品演进路径</h2>
+  <div class="evo">
+    <div class="es"><div class="ic">⏰</div><h4>提醒工具</h4><p>手动录入到期时间<br>使用成本太高</p></div>
+    <div class="ea">→</div>
+    <div class="es"><div class="ic">🧠</div><h4>智能记忆</h4><p>聊天自动提取信息<br>"说一次记一辈子"</p></div>
+    <div class="ea">→</div>
+    <div class="es"><div class="ic">🎯</div><h4>个性化建议</h4><p>基于画像定制回复<br>千人千面</p></div>
+    <div class="ea">→</div>
+    <div class="es"><div class="ic">🐱</div><h4>AI 伙伴</h4><p>有人格有记忆<br>用户可以塑造它</p></div>
+  </div>
+  <p class="label">每一步的驱动力：降低用户的使用成本</p>
+</div>
+
+<div class="card">
+  <h2><span class="n" style="background:#e17055">2</span>AI 人格的三要素</h2>
+  <div class="tri">
+    <div class="ti t1"><div class="ic">🎭</div><h4>一致的性格</h4><p>活泼 / 傲娇 / 护短<br>不会忽冷忽热</p></div>
+    <div class="ti t2"><div class="ic">🧠</div><h4>持续的记忆</h4><p>昨天说的话<br>今天还记得</p></div>
+    <div class="ti t3"><div class="ic">👤</div><h4>对"你"的了解</h4><p>知道你的段位和偏好<br>不是千篇一律</p></div>
+  </div>
+  <div style="text-align:center;color:#aaa;margin-top:14px;font-size:13px">↓ 三样缺一个，用户就出戏 ↓</div>
+  <div class="tri-r"><span>可信的 AI 人格</span></div>
+</div>
+
+<div class="card">
+  <h2><span class="n" style="background:#00b894">3</span>三层记忆系统</h2>
+  <div class="mem">
+    <div class="mr m1"><div class="ic">💬</div><div class="info"><h4>即时记忆</h4><p>刚才的对话上下文，5分钟前说的话不能忘</p></div><div class="ttl">30分钟</div></div>
+    <div class="mr m2"><div class="ic">📓</div><div class="info"><h4>短期记忆</h4><p>今天聊了什么的摘要日志，像一本日记</p></div><div class="ttl">永久</div></div>
+    <div class="mr m3"><div class="ic">📋</div><div class="info"><h4>长期记忆</h4><p>你是谁、喜欢什么、段位多少——你的完整档案</p></div><div class="ttl">永久</div></div>
+  </div>
+  <p class="label">每次对话前三层同时加载，用户感觉"它一直记得我"</p>
+</div>
+
+<div class="card">
+  <h2><span class="n" style="background:#6c5ce7">4</span>"说一次，记一辈子"</h2>
+  <div class="tl">
+    <div class="tl-line"></div>
+    <div class="tl-i"><div class="tl-d db"></div><div class="date">3月1日</div><div class="msg">用户：<b>"我在广州"</b></div><div class="sys">→ 系统静默存储城市 = 广州</div></div>
+    <div class="tl-i"><div class="tl-d dg"></div><div class="date">3月15日</div><div class="msg">用户：<b>"今天天气怎么样"</b></div><div class="sys">→ 自动查广州天气，不用再问</div></div>
+    <div class="tl-i"><div class="tl-d do"></div><div class="date">3月20日</div><div class="msg">用户：<b>"我搬到北京了"</b></div><div class="sys">→ 自动更新城市 = 北京</div></div>
+    <div class="tl-i"><div class="tl-d dp"></div><div class="date">4月1日</div><div class="msg">用户：<b>"今天天气怎么样"</b></div><div class="sys">→ 查北京天气</div></div>
+  </div>
+  <p class="label">用户全程没有填写过任何表单</p>
+</div>
+
+<div class="card">
+  <h2><span class="n" style="background:#fdcb6e;color:#333">5</span>推送的两个通道</h2>
+  <div class="push">
+    <div class="pc pc1"><div class="ic">📱</div><h4>应用内消息</h4><p>打开小程序就能看到<br>前端每 10 秒拉取一次</p></div>
+    <div class="pc pc2"><div class="ic">🔔</div><h4>微信订阅消息</h4><p>手机锁屏也能收到<br>走微信官方通道</p></div>
+  </div>
+  <div style="text-align:center;margin-top:16px;font-size:12px;color:#999">只推两种：花了钱的武器快到期 / 你自己设的提醒到时间了</div>
+</div>
+
+<div class="card">
+  <h2><span class="n" style="background:#be4bdb">6</span>一句话触发的完整链路</h2>
+  <div class="ch">
+    <div class="cs"><div class="num c1">1</div><div class="txt">用户说"提醒我明天中午12点喝水"</div></div>
+    <div class="cs"><div class="num c2">2</div><div class="txt">AI 理解意图，自动设置提醒并存库<div class="sub">Function Calling → set_reminder</div></div></div>
+    <div class="cs"><div class="num c3">3</div><div class="txt">AI 回复 + 展示"📅 同步到手机日历"按钮</div></div>
+    <div class="cs"><div class="num c4">4</div><div class="txt">用户点按钮 → 提醒写入手机系统日历</div></div>
+    <div class="cs"><div class="num c5">5</div><div class="txt">到时间 → 小程序推消息 + 手机弹通知<div class="sub">两个通道同时触达</div></div></div>
+  </div>
+  <p class="label">用户只做了一件事：说了一句话。其他全是系统自动完成。</p>
+</div>
+
+<div class="card">
+  <h2><span class="n" style="background:#e65100">7</span>从代码到用户的路径</h2>
+  <div class="dep">
+    <div class="dp-s d1">📝 本地写代码</div><div class="dp-a">→</div>
+    <div class="dp-s d2">📦 打包 Docker 镜像</div><div class="dp-a">→</div>
+    <div class="dp-s d3">☁️ 上传云托管</div><div class="dp-a">→</div>
+    <div class="dp-s d4">🚀 容器启动</div><div class="dp-a">→</div>
+    <div class="dp-s d5">📱 用户打开小程序</div>
+  </div>
+  <p class="label">听起来5步，实际上每一步都有坑</p>
+</div>
+
+<div class="card">
+  <h2><span class="n" style="background:#c0392b">8</span>部署检查清单</h2>
+  <ul class="ck">
+    <li><div class="bx"></div>密钥不进代码仓库，在云托管后台手动配</li>
+    <li><div class="bx"></div>端口设为 80（云托管强制要求）</li>
+    <li><div class="bx"></div>前端请求模式改为"云模式"（callContainer）</li>
+    <li><div class="bx"></div>云环境 ID 前后端保持一致</li>
+    <li><div class="bx"></div>部署后用体验版（不是开发版）测试登录</li>
+    <li><div class="bx"></div>检查日志中的时区是否为北京时间</li>
+  </ul>
+  <p class="label">每一条都是用一次线上事故换来的</p>
+</div>
+
+<div class="card">
+  <h2><span class="n" style="background:#2d3436">9</span>产品全景图</h2>
+  <div style="text-align:center;font-size:12px;color:#aaa;margin-bottom:10px">用户看到的</div>
+  <div class="pano-top">
+    <div class="pt pt1">💬 聊天界面</div>
+    <div class="pt pt2">🧩 技能管理</div>
+    <div class="pt pt3">👤 个人中心</div>
+  </div>
+  <div style="text-align:center;color:#ccc;margin:6px 0">── 分界线 ──</div>
+  <div style="text-align:center;font-size:12px;color:#aaa;margin-bottom:10px">用户看不到的</div>
+  <div class="pano-mid">
+    <h4>核心系统</h4>
+    <div class="pg">
+      <span class="g1">👻 灵魂系统</span><span class="g2">🧠 三层记忆</span><span class="g3">🔍 画像采集</span><span class="g4">⚡ 意图理解</span><span class="g5">⏰ 主动推送</span>
+    </div>
+    <h4 style="margin-top:12px">5 个技能模块</h4>
+    <div class="pg">
+      <span class="g1">🔫 武器管理</span><span class="g2">📊 战绩分析</span><span class="g3">💎 钻石管家</span><span class="g4">✅ 每日任务</span><span class="g5">🌤️ 天气助手</span>
+    </div>
+    <h4 style="margin-top:12px">基础设施</h4>
+    <div class="pg">
+      <span class="g4">SQLite 11张表</span><span class="g2">每10秒后台扫描</span><span class="g5">微信云托管</span>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

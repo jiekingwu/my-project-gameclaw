@@ -1,0 +1,12 @@
+<!-- components/suggestion-chips/suggestion-chips.wxml -->
+<view class="suggestion-area">
+  <view
+    wx:for="{{chips}}"
+    wx:key="*this"
+    class="chip"
+    data-text="{{item}}"
+    bindtap="onTap"
+  >
+    {{item}}
+  </view>
+</view>

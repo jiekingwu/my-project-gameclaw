@@ -1,0 +1,20 @@
+{
+  "pages": [
+    "pages/chat/chat",
+    "pages/skills/skills",
+    "pages/profile/profile"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "navigationBarTitleText": "ZhijiClaw",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#EDEDED"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents",
+  "requiredPrivateInfos": [
+    "chooseLocation"
+  ]
+}

@@ -1,0 +1,27 @@
+/* components/suggestion-chips/suggestion-chips.wxss — 微信浅色风 */
+
+.suggestion-area {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10rpx;
+  padding-left: 78rpx;
+  margin-bottom: 20rpx;
+}
+
+.chip {
+  padding: 10rpx 22rpx;
+  border-radius: 20rpx;
+  background: var(--bg-card);
+  border: 1rpx solid var(--border);
+  font-size: 24rpx;
+  color: var(--primary);
+  font-weight: 500;
+  box-shadow: var(--shadow-card);
+  transition: all 0.12s;
+}
+
+.chip:active {
+  background: var(--primary-10);
+  border-color: var(--primary);
+  transform: scale(0.96);
+}

@@ -1,0 +1,70 @@
+/* components/chat-bubble/chat-bubble.wxss — 微信风格气泡 */
+
+.chat-msg {
+  display: flex;
+  gap: 14rpx;
+  margin-bottom: 24rpx;
+  animation: fadeUp 0.22s ease-out;
+  box-sizing: border-box;
+  width: 100%;
+  overflow: hidden;
+}
+
+.chat-msg.ai {
+  justify-content: flex-start;
+}
+
+.chat-msg.user {
+  flex-direction: row-reverse;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(6rpx); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 头像：小圆角方形（微信风格） */
+.msg-avatar {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 12rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  flex-shrink: 0;
+}
+
+.ai-avatar {
+  background: linear-gradient(135deg, #3D7EFF, #6BA3FF);
+}
+
+.user-avatar {
+  background: linear-gradient(135deg, #07C160, #3DD475);
+}
+
+/* 气泡：微信风格直角指向头像 */
+.bubble {
+  padding: 20rpx 24rpx;
+  font-size: 28rpx;
+  line-height: 1.65;
+  word-break: break-word;
+  max-width: calc(100vw - 200rpx);
+  flex-shrink: 1;
+  min-width: 0;
+}
+
+/* AI 气泡：白底，左上直角 */
+.ai-bubble {
+  background: var(--bg-card);
+  color: var(--text-1);
+  border-radius: 4rpx 20rpx 20rpx 20rpx;
+  box-shadow: var(--shadow-card);
+}
+
+/* 用户气泡：微信绿，右上直角 */
+.user-bubble {
+  background: #95EC69;
+  color: #111111;
+  border-radius: 20rpx 4rpx 20rpx 20rpx;
+}

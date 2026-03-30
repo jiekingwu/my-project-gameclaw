@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ZhijiClaw · CF手游助理</title>
+<style>
+  :root {
+    --primary: #4F6EF7; --primary-light: #EEF1FF; --primary-bg: #F0F3FF; --primary-dark: #3B54D4;
+    --accent: #FF6B8A; --accent-light: #FFF0F3;
+    --bg: #F5F6FA; --bg-white: #FFFFFF; --bg-gray: #F0F1F5;
+    --text-primary: #1A1D26; --text-secondary: #5A5D6B; --text-muted: #9B9EAC; --text-light: #C2C5D0;
+    --success: #2DC96F; --success-bg: #EAFAF2; --warning: #F5A623; --warning-bg: #FFF7EB;
+    --danger: #F5222D; --danger-bg: #FFF1F0; --border: #E8EAF0;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.04); --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
+    --radius: 16px; --radius-sm: 12px; --radius-xs: 8px;
+  }
+  * { margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif; background:#E8EAF0; color:var(--text-primary); overflow:hidden; height:100vh; width:100vw; }
+  .phone-frame { width:390px; height:844px; margin:0 auto; position:relative; overflow:hidden; background:var(--bg); display:flex; flex-direction:column; }
+  @media(max-width:430px){ .phone-frame{width:100vw;height:100vh;} }
+  @media(min-width:431px){ body{display:flex;align-items:center;justify-content:center;background:#D0D3DE;} .phone-frame{border-radius:40px;border:3px solid #C8CBD5;box-shadow:0 20px 60px rgba(0,0,0,0.15);} }
+
+  /* Status Bar */
+  .wx-status-bar { height:44px; display:flex; align-items:center; justify-content:space-between; padding:0 16px; font-size:12px; font-weight:600; flex-shrink:0; background:var(--bg-white); }
+  .wx-status-bar .time { font-size:15px; font-weight:700; }
+  .wx-status-bar .sys-icons { display:flex; gap:4px; font-size:13px; }
+
+  /* Nav Bar */
+  .wx-nav-bar { height:44px; display:flex; align-items:center; padding:0 12px; background:var(--bg-white); flex-shrink:0; position:relative; z-index:20; }
+  .wx-nav-back { width:32px;height:32px; display:flex;align-items:center;justify-content:center; cursor:pointer; border-radius:50%; }
+  .wx-nav-back:active { background:var(--bg-gray); }
+  .wx-nav-title { position:absolute; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:8px; }
+  .nav-avatar { width:28px;height:28px; border-radius:50%; background:linear-gradient(135deg,#4F6EF7,#7B93FF); display:flex;align-items:center;justify-content:center; font-size:14px; position:relative; }
+  .nav-avatar .online-dot { position:absolute; bottom:-1px;right:-1px; width:8px;height:8px; background:var(--success); border-radius:50%; border:1.5px solid var(--bg-white); }
+  .nav-avatar .online-dot.off { background:var(--text-light); }
+  .nav-text { font-size:16px; font-weight:600; white-space:nowrap; }
+  .wx-capsule { display:flex; align-items:center; height:32px; border-radius:16px; border:0.5px solid rgba(0,0,0,0.15); background:rgba(255,255,255,0.6); overflow:hidden; margin-left:auto; backdrop-filter:blur(8px); }
+  .wx-capsule-btn { width:38px;height:32px; display:flex;align-items:center;justify-content:center; cursor:pointer; }
+  .wx-capsule-btn:active { background:rgba(0,0,0,0.06); }
+  .wx-capsule-divider { width:0.5px; height:18px; background:rgba(0,0,0,0.15); }
+  .capsule-dots { display:flex; gap:3px; }
+  .capsule-dots span { width:4px;height:4px; border-radius:50%; background:var(--text-primary); opacity:0.65; }
+  .capsule-close { font-size:16px; font-weight:300; color:var(--text-primary); opacity:0.65; }
+
+  /* Sub Header with Skill & Profile buttons */
+  .wx-sub-header { display:flex; align-items:center; gap:8px; padding:6px 16px 10px; background:var(--bg-white); border-bottom:0.5px solid var(--border); flex-shrink:0; }
+  .sub-tag { display:inline-flex; align-items:center; gap:4px; padding:3px 8px; border-radius:10px; font-size:10px; font-weight:500; }
+  .sub-tag.online { background:var(--success-bg); color:var(--success); }
+  .sub-tag.online::before { content:''; width:5px;height:5px; background:var(--success); border-radius:50%; animation:blink 1.5s infinite; }
+  .sub-tag.connecting { background:var(--warning-bg); color:var(--warning); }
+  @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+  .sub-actions { margin-left:auto; display:flex; gap:6px; }
+  .sub-action-btn { height:28px; padding:0 10px; border-radius:14px; display:flex;align-items:center;gap:4px; cursor:pointer; background:var(--bg-gray); border:1px solid var(--border); position:relative; }
+  .sub-action-btn:active { background:var(--border); transform:scale(0.95); }
+  .sub-action-btn span { font-size:11px; color:var(--text-secondary); font-weight:500; }
+  .act-badge { position:absolute;top:-2px;right:-2px; width:7px;height:7px; background:var(--danger); border-radius:50%; border:1.5px solid var(--bg-white); }
+
+  /* Chat Body */
+  .chat-body { flex:1; overflow-y:auto; overflow-x:hidden; padding:16px; display:flex; flex-direction:column; gap:16px; background:var(--bg); -webkit-overflow-scrolling:touch; }
+  .chat-body::-webkit-scrollbar { display:none; }
+
+  /* Welcome */
+  .welcome-card { background:var(--bg-white); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow-sm); border:1px solid var(--border); }
+  .welcome-top { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
+  .welcome-avatar { width:48px;height:48px; border-radius:50%; background:linear-gradient(135deg,#4F6EF7,#7B93FF); display:flex;align-items:center;justify-content:center; font-size:24px; box-shadow:0 4px 12px rgba(79,110,247,0.25); }
+  .welcome-text h2 { font-size:17px; font-weight:700; }
+  .welcome-text p { font-size:12px; color:var(--text-muted); margin-top:2px; }
+  .welcome-desc { font-size:13px; color:var(--text-secondary); line-height:1.7; margin-bottom:16px; padding:12px 14px; background:var(--bg-gray); border-radius:var(--radius-xs); }
+  .quick-skills { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+  .quick-skill-item { display:flex; flex-direction:column; align-items:center; gap:6px; cursor:pointer; padding:8px 4px; border-radius:var(--radius-xs); }
+  .quick-skill-item:active { background:var(--bg-gray); }
+  .quick-skill-icon { width:44px;height:44px; border-radius:14px; display:flex;align-items:center;justify-content:center; font-size:20px; position:relative; }
+  .quick-skill-icon .notif { position:absolute;top:-3px;right:-3px; min-width:16px;height:16px; background:var(--danger); border-radius:8px; font-size:9px;font-weight:700; color:white; display:flex;align-items:center;justify-content:center; padding:0 3px; border:1.5px solid var(--bg-white); }
+  .quick-skill-item>span { font-size:11px; color:var(--text-secondary); font-weight:500; white-space:nowrap; }
+  .ico-blue{background:#EEF1FF;} .ico-pink{background:#FFF0F3;} .ico-green{background:#EAFAF2;} .ico-orange{background:#FFF7EB;} .ico-purple{background:#F3EEFF;} .ico-cyan{background:#E8F8F8;} .ico-red{background:#FFF1F0;}
+
+  /* Messages */
+  .chat-msg { display:flex; gap:10px; max-width:88%; animation:msgIn 0.3s ease-out; }
+  .chat-msg.ai { align-self:flex-start; }
+  .chat-msg.user { align-self:flex-end; flex-direction:row-reverse; }
+  @keyframes msgIn { from{opacity:0;transform:translateY(10px);} to{opacity:1;transform:translateY(0);} }
+  .msg-avatar { width:32px;height:32px; border-radius:50%; display:flex;align-items:center;justify-content:center; font-size:16px; flex-shrink:0; }
+  .chat-msg.ai .msg-avatar { background:linear-gradient(135deg,#4F6EF7,#7B93FF); }
+  .chat-msg.user .msg-avatar { background:linear-gradient(135deg,#FF6B8A,#FF9EB5); }
+  .chat-bubble { padding:12px 16px; border-radius:18px; font-size:14px; line-height:1.7; word-break:break-word; }
+  .chat-msg.ai .chat-bubble { background:var(--bg-white); color:var(--text-primary); border-top-left-radius:4px; box-shadow:var(--shadow-sm); border:1px solid var(--border); }
+  .chat-msg.user .chat-bubble { background:var(--primary); color:white; border-top-right-radius:4px; box-shadow:0 2px 8px rgba(79,110,247,0.3); }
+  .chat-bubble strong { font-weight:700; }
+  .chat-bubble table { width:100%; border-collapse:collapse; margin:8px 0; font-size:12px; }
+  .chat-bubble th { padding:5px 8px; background:var(--bg-gray); font-weight:600; text-align:left; border-bottom:2px solid var(--border); }
+  .chat-bubble td { padding:4px 8px; border-bottom:1px solid var(--bg-gray); }
+
+  /* Chips */
+  .suggestion-area { display:flex; flex-wrap:wrap; gap:8px; align-self:flex-start; padding-left:42px; }
+  .suggestion-chip { padding:8px 14px; border-radius:20px; background:var(--bg-white); border:1px solid var(--border); font-size:12px; color:var(--primary); font-weight:500; cursor:pointer; box-shadow:var(--shadow-sm); }
+  .suggestion-chip:active { background:var(--primary-light); border-color:var(--primary); }
+
+  .time-divider { text-align:center; font-size:11px; color:var(--text-light); padding:4px 0; align-self:center; }
+
+  /* Typing */
+  .typing-indicator { display:flex; gap:4px; padding:4px 0; }
+  .typing-indicator span { width:6px;height:6px; border-radius:50%; background:var(--primary); opacity:0.4; animation:typing 1.4s infinite; }
+  .typing-indicator span:nth-child(2) { animation-delay:0.2s; }
+  .typing-indicator span:nth-child(3) { animation-delay:0.4s; }
+  @keyframes typing { 0%,60%,100%{opacity:0.3;transform:translateY(0);} 30%{opacity:1;transform:translateY(-4px);} }
+
+  /* Input */
+  .chat-input-area { padding:10px 12px; background:var(--bg-white); border-top:1px solid var(--border); flex-shrink:0; }
+  .input-row { display:flex; align-items:flex-end; gap:8px; }
+  .input-wrapper { flex:1; display:flex; align-items:center; background:var(--bg-gray); border:1.5px solid var(--border); border-radius:22px; padding:8px 14px; gap:8px; transition:border-color 0.2s; }
+  .input-wrapper:focus-within { border-color:var(--primary); background:var(--bg-white); }
+  .input-wrapper input { flex:1; background:none; border:none; outline:none; color:var(--text-primary); font-size:14px; font-family:inherit; }
+  .input-wrapper input::placeholder { color:var(--text-light); }
+  .input-btn { width:38px;height:38px; border-radius:50%; display:flex;align-items:center;justify-content:center; cursor:pointer; flex-shrink:0; border:none; }
+  .send-btn { background:var(--primary); box-shadow:0 2px 8px rgba(79,110,247,0.35); }
+  .send-btn svg { width:17px;height:17px; fill:white; }
+  .send-btn:active { transform:scale(0.93); }
+  .home-indicator { height:20px; display:flex; align-items:center; justify-content:center; background:var(--bg-white); flex-shrink:0; }
+  .home-indicator-bar { width:134px; height:5px; background:var(--text-primary); border-radius:3px; opacity:0.18; }
+  .ai-note { text-align:center; font-size:10px; color:var(--text-light); margin-top:6px; }
+
+  /* Drawer */
+  .drawer-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.35); z-index:1000; opacity:0; visibility:hidden; transition:all 0.3s; }
+  .drawer-overlay.show { opacity:1; visibility:visible; }
+  .drawer-panel { position:fixed; bottom:0; left:50%; width:390px; transform:translateX(-50%) translateY(100%); background:var(--bg-white); border-radius:20px 20px 0 0; z-index:1001; transition:transform 0.35s cubic-bezier(0.32,0.72,0,1); max-height:80vh; overflow:hidden; display:flex; flex-direction:column; }
+  @media(max-width:430px){ .drawer-panel{width:100%;} }
+  .drawer-panel.show { transform:translateX(-50%) translateY(0); }
+  .drawer-handle { width:36px;height:4px; background:var(--border); border-radius:2px; margin:10px auto 0; flex-shrink:0; }
+  .drawer-header { display:flex; align-items:center; justify-content:space-between; padding:14px 20px 10px; flex-shrink:0; }
+  .drawer-header h3 { font-size:17px; font-weight:700; }
+  .drawer-close { width:30px;height:30px; border-radius:50%; background:var(--bg-gray); display:flex;align-items:center;justify-content:center; cursor:pointer; font-size:16px; color:var(--text-muted); }
+  .drawer-body { flex:1; overflow-y:auto; padding:0 20px 20px; -webkit-overflow-scrolling:touch; }
+  .drawer-body::-webkit-scrollbar { display:none; }
+  .drawer-skill-group { margin-bottom:20px; }
+  .drawer-skill-group-title { font-size:13px; font-weight:600; color:var(--text-muted); margin-bottom:10px; }
+  .drawer-skill-item { display:flex; align-items:center; gap:12px; padding:14px; background:var(--bg-gray); border-radius:var(--radius-sm); margin-bottom:8px; }
+  .drawer-skill-icon { width:42px;height:42px; border-radius:12px; display:flex;align-items:center;justify-content:center; font-size:20px; flex-shrink:0; }
+  .drawer-skill-info { flex:1; }
+  .drawer-skill-info h4 { font-size:14px; font-weight:600; margin-bottom:2px; }
+  .drawer-skill-info p { font-size:11px; color:var(--text-muted); line-height:1.4; }
+  .toggle-switch { width:44px;height:24px; background:var(--border); border-radius:12px; position:relative; cursor:pointer; transition:background 0.3s; flex-shrink:0; }
+  .toggle-switch.on { background:var(--primary); }
+  .toggle-switch::after { content:''; position:absolute; top:2px;left:2px; width:20px;height:20px; background:white; border-radius:50%; box-shadow:0 1px 3px rgba(0,0,0,0.15); transition:transform 0.3s; }
+  .toggle-switch.on::after { transform:translateX(20px); }
+  .skill-status { font-size:10px; font-weight:500; margin-top:2px; }
+  .skill-status.on { color:var(--primary); }
+  .skill-status.off { color:var(--text-light); }
+
+  /* Profile */
+  .profile-section { text-align:center; padding:10px 0 20px; }
+  .p-avatar { width:64px;height:64px; border-radius:50%; background:linear-gradient(135deg,#4F6EF7,#7B93FF); display:flex;align-items:center;justify-content:center; font-size:30px; margin:0 auto 10px; box-shadow:0 4px 16px rgba(79,110,247,0.3); }
+  .p-name { font-size:18px; font-weight:700; }
+  .p-tag { display:inline-block; margin-top:4px; padding:3px 10px; border-radius:10px; background:var(--primary-light); font-size:11px; color:var(--primary); font-weight:600; }
+  .profile-stats-row { display:flex; justify-content:space-around; padding:16px 0; margin:10px 0; background:var(--bg-gray); border-radius:var(--radius-sm); }
+  .p-stat { text-align:center; }
+  .p-stat .num { font-size:18px; font-weight:700; color:var(--primary); }
+  .p-stat .lab { font-size:10px; color:var(--text-muted); margin-top:2px; }
+  .drawer-menu-item { display:flex; align-items:center; gap:12px; padding:14px 0; border-bottom:1px solid var(--bg-gray); cursor:pointer; }
+  .drawer-menu-item:last-child { border-bottom:none; }
+  .drawer-menu-item:active { opacity:0.6; }
+  .drawer-menu-icon { width:36px;height:36px; border-radius:10px; display:flex;align-items:center;justify-content:center; font-size:18px; }
+  .dm-text { flex:1; }
+  .dm-text h4 { font-size:14px; font-weight:500; }
+  .dm-text p { font-size:11px; color:var(--text-muted); }
+  .dm-extra { font-size:12px; color:var(--text-light); display:flex; align-items:center; gap:4px; }
+  .mini-badge { min-width:16px;height:16px; background:var(--danger); border-radius:8px; font-size:9px;font-weight:700; color:white; text-align:center; line-height:16px; padding:0 4px; }
+</style>
+</head>
+<body>
+<div class="phone-frame">
+  <div class="wx-status-bar"><span class="time" id="sTime">15:36</span><span class="sys-icons">📶 🔋</span></div>
+  <div class="wx-nav-bar">
+    <div class="wx-nav-back"><svg viewBox="0 0 24 24" width="22" height="22" fill="#1A1D26"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></div>
+    <div class="wx-nav-title"><div class="nav-avatar">🔫<span class="online-dot" id="onlineDot"></span></div><span class="nav-text">ZhijiClaw</span></div>
+    <div class="wx-capsule"><div class="wx-capsule-btn"><div class="capsule-dots"><span></span><span></span><span></span></div></div><div class="wx-capsule-divider"></div><div class="wx-capsule-btn"><span class="capsule-close">✕</span></div></div>
+  </div>
+  <div class="wx-sub-header">
+    <span class="sub-tag online" id="statusTag">在线守护中</span>
+    <div class="sub-actions">
+      <div class="sub-action-btn" onclick="openDrawer('skills')"><span>🧩 技能</span><span class="act-badge"></span></div>
+      <div class="sub-action-btn" onclick="openDrawer('profile')"><span>👤 我的</span></div>
+    </div>
+  </div>
+
+  <div class="chat-body" id="chatBody">
+    <div class="time-divider" id="timeDiv">今天 15:36</div>
+    <div class="welcome-card">
+      <div class="welcome-top"><div class="welcome-avatar">🔫</div><div class="welcome-text"><h2>你好，主人 👋</h2><p>今天是你征战CF的第 286 天</p></div></div>
+      <div class="welcome-desc">我是你的专属AI游戏助理<strong>「ZhijiClaw」</strong>，专为穿越火线手游打造~ 帮你追踪限时武器到期、分析钻石省钱方案、规划段位晋升、查询枪械数据，有任何问题直接问我，主人！</div>
+      <div class="quick-skills">
+        <div class="quick-skill-item" onclick="sendMsg('帮我看看有哪些武器快到期了')"><div class="quick-skill-icon ico-red">⏰<span class="notif">3</span></div><span>到期提醒</span></div>
+        <div class="quick-skill-item" onclick="sendMsg('最近有什么省钻石的充值方案吗')"><div class="quick-skill-icon ico-orange">💎</div><span>省钻攻略</span></div>
+        <div class="quick-skill-item" onclick="sendMsg('帮我分析一下最近的战绩数据')"><div class="quick-skill-icon ico-blue">📊</div><span>战绩分析</span></div>
+        <div class="quick-skill-item" onclick="sendMsg('帮我制定一个段位晋升计划')"><div class="quick-skill-icon ico-green">📈</div><span>段位规划</span></div>
+        <div class="quick-skill-item" onclick="sendMsg('我想查询一下枪械数据')"><div class="quick-skill-icon ico-purple">🔍</div><span>枪械查询</span></div>
+        <div class="quick-skill-item" onclick="sendMsg('帮我推荐当前版本的最佳配枪')"><div class="quick-skill-icon ico-cyan">🎯</div><span>配枪推荐</span></div>
+        <div class="quick-skill-item" onclick="sendMsg('今天天气怎么样')"><div class="quick-skill-icon ico-cyan">🌤️</div><span>天气查询</span></div>
+        <div class="quick-skill-item" onclick="openDrawer('skills')"><div class="quick-skill-icon ico-blue">🧩</div><span>更多技能</span></div>
+      </div>
+    </div>
+    <div class="suggestion-area" id="initChips">
+      <div class="suggestion-chip" data-msg="帮我看看有哪些武器快到期了">⏰ 到期武器</div>
+      <div class="suggestion-chip" data-msg="最近有什么省钻石的充值方案吗">💎 省钻方案</div>
+      <div class="suggestion-chip" data-msg="今天还有哪些任务没完成">✅ 每日任务</div>
+      <div class="suggestion-chip" data-msg="下个版本会更新什么内容">🔮 版本前瞻</div>
+    </div>
+  </div>
+
+  <div class="chat-input-area">
+    <div class="input-row">
+      <div class="input-wrapper"><input type="text" placeholder="问我任何CF手游问题…" id="chatInput" onkeydown="if(event.key==='Enter')sendFromInput()"></div>
+      <button class="input-btn send-btn" onclick="sendFromInput()"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>
+    </div>
+    <div class="ai-note">内容由AI生成，仅供参考 · DeepSeek + Function Calling</div>
+  </div>
+  <div class="home-indicator"><div class="home-indicator-bar"></div></div>
+</div>
+
+<!-- Drawer Overlay -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+<div class="drawer-panel" id="drawerPanel">
+  <div class="drawer-handle"></div>
+  <!-- Skills -->
+  <div id="drawerSkills" style="display:none;flex-direction:column;flex:1;overflow:hidden;">
+    <div class="drawer-header"><h3>🧩 AI技能管理</h3><div class="drawer-close" onclick="closeDrawer()">✕</div></div>
+    <div class="drawer-body">
+      <div style="font-size:12px;color:var(--text-muted);margin-bottom:16px;padding:8px 12px;background:var(--bg-gray);border-radius:8px;line-height:1.6;">💡 开启技能后，ZhijiClaw 会主动为你提供对应服务。</div>
+      <div class="drawer-skill-group"><div class="drawer-skill-group-title">🔥 核心技能</div>
+        <div class="drawer-skill-item"><div class="drawer-skill-icon ico-orange">💎</div><div class="drawer-skill-info"><h4>省钻大师</h4><p>智能分析充值性价比</p><div class="skill-status on">已开启 · 本月省188💎</div></div><div class="toggle-switch on" data-skill-id="diamond-advisor" onclick="toggleSkill(this)"></div></div>
+        <div class="drawer-skill-item"><div class="drawer-skill-icon ico-red">⏰</div><div class="drawer-skill-info"><h4>限时武器守护</h4><p>自动追踪限时武器到期</p><div class="skill-status on">已开启 · 守护3件</div></div><div class="toggle-switch on" data-skill-id="weapon-guard" onclick="toggleSkill(this)"></div></div>
+        <div class="drawer-skill-item"><div class="drawer-skill-icon ico-green">📈</div><div class="drawer-skill-info"><h4>段位规划师</h4><p>定制段位晋升路线</p><div class="skill-status on">已开启 · 目标：枪王</div></div><div class="toggle-switch on" data-skill-id="battle-analyzer" onclick="toggleSkill(this)"></div></div>
+      </div>
+      <div class="drawer-skill-group"><div class="drawer-skill-group-title">🔍 查询与分析</div>
+        <div class="drawer-skill-item"><div class="drawer-skill-icon ico-purple">🔍</div><div class="drawer-skill-info"><h4>枪械百科</h4><p>武器数据一问即答</p><div class="skill-status on">已开启</div></div><div class="toggle-switch on" data-skill-id="weapon-wiki" onclick="toggleSkill(this)"></div></div>
+        <div class="drawer-skill-item"><div class="drawer-skill-icon ico-blue">📊</div><div class="drawer-skill-info"><h4>战绩分析</h4><p>KD、爆头率、胜率分析</p><div class="skill-status on">已开启</div></div><div class="toggle-switch on" data-skill-id="battle-analyzer" onclick="toggleSkill(this)"></div></div>
+      </div>
+      <div class="drawer-skill-group"><div class="drawer-skill-group-title">🎁 福利与关怀</div>
+        <div class="drawer-skill-item"><div class="drawer-skill-icon ico-pink">🎁</div><div class="drawer-skill-info"><h4>福利情报员</h4><p>搜集兑换码、限时返钻</p><div class="skill-status on">已开启 · 今日3条</div></div><div class="toggle-switch on" data-skill-id="welfare" onclick="toggleSkill(this)"></div></div>
+        <div class="drawer-skill-item"><div class="drawer-skill-icon ico-green">✅</div><div class="drawer-skill-info"><h4>每日任务提醒</h4><p>智能提醒待完成任务</p><div class="skill-status on">已开启</div></div><div class="toggle-switch on" data-skill-id="daily-task" onclick="toggleSkill(this)"></div></div>
+        <div class="drawer-skill-item"><div class="drawer-skill-icon ico-cyan">🌤️</div><div class="drawer-skill-info"><h4>天气助手</h4><p>实时天气、3天预报、穿搭建议</p><div class="skill-status on">已开启</div></div><div class="toggle-switch on" data-skill-id="weather" onclick="toggleSkill(this)"></div></div>
+      </div>
+    </div>
+  </div>
+  <!-- Profile -->
+  <div id="drawerProfile" style="display:none;flex-direction:column;flex:1;overflow:hidden;">
+    <div class="drawer-header"><h3>👤 个人中心</h3><div class="drawer-close" onclick="closeDrawer()">✕</div></div>
+    <div class="drawer-body">
+      <div class="profile-section"><div class="p-avatar">🎮</div><div class="p-name">jieking</div><div class="p-tag">🏅 钻石3 · KD 1.82</div></div>
+      <div class="profile-stats-row">
+        <div class="p-stat"><div class="num">286</div><div class="lab">征战天数</div></div>
+        <div class="p-stat"><div class="num">1260💎</div><div class="lab">AI帮省</div></div>
+        <div class="p-stat"><div class="num">23</div><div class="lab">武器守护</div></div>
+        <div class="p-stat"><div class="num">1.82</div><div class="lab">KD比</div></div>
+      </div>
+      <div class="drawer-menu-item"><div class="drawer-menu-icon ico-blue">📊</div><div class="dm-text"><h4>我的战绩数据</h4><p>KD、爆头率、胜率、MVP</p></div><div class="dm-extra">›</div></div>
+      <div class="drawer-menu-item"><div class="drawer-menu-icon ico-orange">💎</div><div class="dm-text"><h4>省钻记录</h4><p>累计节省 1,260💎</p></div><div class="dm-extra">本月188💎 ›</div></div>
+      <div class="drawer-menu-item"><div class="drawer-menu-icon ico-red">⏰</div><div class="dm-text"><h4>武器守护记录</h4><p>已守护 23 件限时武器</p></div><div class="dm-extra"><span class="mini-badge">3</span> ›</div></div>
+      <div class="drawer-menu-item"><div class="drawer-menu-icon ico-green">🔔</div><div class="dm-text"><h4>提醒设置</h4><p>武器到期、活动提醒</p></div><div class="dm-extra">›</div></div>
+      <div class="drawer-menu-item"><div class="drawer-menu-icon ico-purple">🔫</div><div class="dm-text"><h4>我的武器库</h4><p>永久12把 · 限时3把</p></div><div class="dm-extra">›</div></div>
+      <div class="drawer-menu-item"><div class="drawer-menu-icon ico-pink">💬</div><div class="dm-text"><h4>意见反馈</h4></div><div class="dm-extra">›</div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const API='http://localhost:3900/api';
+let token='';
+
+// Time
+function updateTime(){const n=new Date();document.getElementById('sTime').textContent=n.getHours().toString().padStart(2,'0')+':'+n.getMinutes().toString().padStart(2,'0');document.getElementById('timeDiv').textContent='今天 '+n.getHours()+':'+n.getMinutes().toString().padStart(2,'0');}
+updateTime();setInterval(updateTime,30000);
+
+// Init（带重试机制，最多3次，间隔2秒）
+async function init(retry=0){
+  try{
+    const ctrl=new AbortController();
+    const timer=setTimeout(()=>ctrl.abort(),5000);
+    const r=await fetch(API+'/auth/dev-login',{method:'POST',signal:ctrl.signal});
+    clearTimeout(timer);
+    const d=await r.json();token=d.data.accessToken;
+    document.getElementById('onlineDot').className='online-dot';
+    document.getElementById('statusTag').textContent='在线守护中';
+    document.getElementById('statusTag').className='sub-tag online';
+    setInterval(pollPending,10000);
+  }catch(e){
+    if(retry<3){
+      document.getElementById('statusTag').textContent='重连中('+( retry+1)+'/3)...';
+      setTimeout(()=>init(retry+1),2000);
+    }else{
+      document.getElementById('onlineDot').className='online-dot off';
+      document.getElementById('statusTag').textContent='离线 · 点击重连';
+      document.getElementById('statusTag').className='sub-tag connecting';
+      document.getElementById('statusTag').onclick=()=>init(0);
+    }
+  }
+}
+
+async function pollPending(){
+  if(!token)return;
+  try{
+    const r=await fetch(API+'/gateway/pending-messages',{headers:{Authorization:'Bearer '+token}});
+    const d=await r.json();(d.data?.messages||[]).forEach(m=>addAiMsg(m.content,m.chips||[]));
+  }catch(e){}
+}
+
+// Drawer
+function openDrawer(t){document.getElementById('drawerOverlay').classList.add('show');document.getElementById('drawerPanel').classList.add('show');document.getElementById('drawerSkills').style.display=t==='skills'?'flex':'none';document.getElementById('drawerProfile').style.display=t==='profile'?'flex':'none';}
+function closeDrawer(){document.getElementById('drawerOverlay').classList.remove('show');document.getElementById('drawerPanel').classList.remove('show');}
+function toggleSkill(el){
+  const on=el.classList.toggle('on');
+  const s=el.parentElement.querySelector('.skill-status');
+  s.className='skill-status '+(on?'on':'off');
+  s.textContent=on?'已开启':'已关闭';
+  // 同步到后端
+  const skillId=el.dataset.skillId;
+  if(skillId&&token){
+    fetch(API+'/gateway/skill-settings',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token},body:JSON.stringify({skillId,enabled:on})}).catch(()=>{});
+  }
+}
+
+// Chat
+const chatBody=document.getElementById('chatBody');
+
+function sendFromInput(){const i=document.getElementById('chatInput');const t=i.value.trim();if(!t)return;i.value='';sendMsg(t);}
+
+let sending=false; // 防重复
+async function sendMsg(text){
+  if(sending)return; // 上一条还没回来，别重复发
+  if(!token){addAiMsg('⚠️ 还没连上服务器哦，请稍等或刷新页面~',[]);return;}
+  sending=true;
+  const ic=document.getElementById('initChips');if(ic)ic.style.display='none';
+  chatBody.querySelectorAll('.suggestion-area').forEach(s=>s.remove());
+  addUserMsg(text);
+  const tid=showTyping();
+  try{
+    const ctrl=new AbortController();
+    const timer=setTimeout(()=>ctrl.abort(),30000); // 30秒超时
+    const r=await fetch(API+'/gateway/chat',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token},body:JSON.stringify({message:text}),signal:ctrl.signal});
+    clearTimeout(timer);
+    const d=await r.json();
+    removeTyping(tid);
+    if(d.data){addAiMsg(d.data.reply,d.data.chips||[]);console.log('[Chat]',d.data.meta?.elapsed,'source:',d.data.meta?.source);}
+    else addAiMsg('😅 服务返回异常，主人稍后再试~',[]);
+  }catch(e){
+    removeTyping(tid);
+    if(e.name==='AbortError')addAiMsg('⏰ 等太久了，主人再问一次吧~（超时30秒）',['重试']);
+    else addAiMsg('😅 网络开小差了，主人稍等再试试～',['重试']);
+  }finally{sending=false;}
+}
+
+function addUserMsg(t){const d=document.createElement('div');d.className='chat-msg user';d.innerHTML='<div class="msg-avatar">🎮</div><div class="chat-bubble">'+esc(t)+'</div>';chatBody.appendChild(d);scroll();}
+function addAiMsg(t,chips=[]){const d=document.createElement('div');d.className='chat-msg ai';d.innerHTML='<div class="msg-avatar">🔫</div><div class="chat-bubble">'+parseMd(t||'')+'</div>';chatBody.appendChild(d);if(chips.length){const c=document.createElement('div');c.className='suggestion-area';chips.forEach(x=>{const ch=document.createElement('div');ch.className='suggestion-chip';ch.textContent=x;ch.dataset.msg=x;c.appendChild(ch);});chatBody.appendChild(c);}scroll();}
+
+let tid=0;
+function showTyping(){const id='t'+(++tid);const d=document.createElement('div');d.id=id;d.className='chat-msg ai';d.innerHTML='<div class="msg-avatar">🔫</div><div class="chat-bubble"><div class="typing-indicator"><span></span><span></span><span></span></div></div>';chatBody.appendChild(d);scroll();return id;}
+function removeTyping(id){const e=document.getElementById(id);if(e)e.remove();}
+function scroll(){setTimeout(()=>chatBody.scrollTop=chatBody.scrollHeight,50);}
+
+// Chip click delegation
+chatBody.addEventListener('click',e=>{const c=e.target.closest('.suggestion-chip');if(c&&c.dataset.msg){if(c.dataset.msg==='🧩 打开技能面板')openDrawer('skills');else sendMsg(c.dataset.msg);}});
+
+// MD parse
+function parseMd(t){if(!t)return'';let h=esc(t);h=parseTable(h);h=h.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');h=h.replace(/~~(.+?)~~/g,'<del style="color:#9B9EAC">$1</del>');h=h.replace(/\n\n/g,'<br><br>');h=h.replace(/\n/g,'<br>');return h;}
+function parseTable(t){const ls=t.split('\n');let r=[],inT=false,rows=[];for(const l of ls){const tr=l.trim();if(tr.startsWith('|')&&tr.endsWith('|')){if(/^\|[\s\-:|]+\|$/.test(tr.replace(/[^|\-:\s]/g,'')))continue;if(!inT){inT=true;rows=[];}rows.push(tr.split('|').filter(c=>c.trim()).map(c=>c.trim()));}else{if(inT){r.push(rT(rows));inT=false;rows=[];}r.push(l);}}if(inT)r.push(rT(rows));return r.join('\n');}
+function rT(rows){if(!rows.length)return'';let h='<table>';h+='<tr>'+rows[0].map(c=>'<th>'+c+'</th>').join('')+'</tr>';for(let i=1;i<rows.length;i++)h+='<tr>'+rows[i].map(c=>'<td>'+c+'</td>').join('')+'</tr>';return h+'</table>';}
+function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+
+init();
+</script>
+</body>
+</html>

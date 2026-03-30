@@ -1,0 +1,18 @@
+<!-- components/reminder-confirm/reminder-confirm.wxml -->
+<view class="remind-card" wx:if="{{show}}">
+  <view class="remind-info">
+    <text class="remind-icon">🔔</text>
+    <view class="remind-detail">
+      <text class="remind-time">{{time}} 提醒「{{content}}」</text>
+      <text class="remind-tip">将写入手机系统日历，到时间自动提醒</text>
+    </view>
+  </view>
+  <view class="remind-actions">
+    <view class="remind-btn confirm" hover-class="remind-btn-hover" hover-stay-time="100" bindtap="onConfirm">
+      <text>✅ 确认设置</text>
+    </view>
+    <view class="remind-btn cancel" hover-class="remind-btn-hover" hover-stay-time="100" bindtap="onCancel">
+      <text>✕ 算了不用</text>
+    </view>
+  </view>
+</view>

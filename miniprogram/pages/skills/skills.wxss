@@ -1,0 +1,89 @@
+/* pages/skills/skills.wxss — 微信浅色风 */
+
+.skills-page {
+  padding: 20rpx 24rpx;
+  padding-bottom: calc(24rpx + env(safe-area-inset-bottom));
+  min-height: 100%;
+  box-sizing: border-box;
+  background: var(--bg);
+}
+
+.tips-bar {
+  font-size: 22rpx;
+  color: var(--text-3);
+  padding: 16rpx 20rpx;
+  background: var(--bg-card);
+  border-radius: 12rpx;
+  line-height: 1.6;
+  margin-bottom: 24rpx;
+  box-shadow: var(--shadow-card);
+}
+
+.skill-group {
+  margin-bottom: 28rpx;
+}
+
+.group-title {
+  font-size: 24rpx;
+  font-weight: 600;
+  color: var(--text-3);
+  margin-bottom: 12rpx;
+  padding-left: 4rpx;
+  display: block;
+  letter-spacing: 0.5rpx;
+}
+
+.skill-item {
+  display: flex;
+  align-items: center;
+  gap: 18rpx;
+  padding: 22rpx;
+  background: var(--bg-card);
+  border-radius: 14rpx;
+  margin-bottom: 10rpx;
+  box-shadow: var(--shadow-card);
+}
+
+.skill-item:active {
+  opacity: 0.85;
+}
+
+.skill-icon {
+  width: 68rpx;
+  height: 68rpx;
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  flex-shrink: 0;
+}
+
+.skill-info { flex: 1; }
+
+.skill-name {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--text-1);
+  display: block;
+  margin-bottom: 2rpx;
+}
+
+.skill-desc {
+  font-size: 22rpx;
+  color: var(--text-3);
+  line-height: 1.4;
+  display: block;
+}
+
+.skill-status {
+  font-size: 20rpx;
+  font-weight: 500;
+  margin-top: 4rpx;
+  display: block;
+}
+
+.skill-status.on { color: var(--primary); }
+.skill-status.off { color: var(--text-4); }
+
+.skill-switch { flex-shrink: 0; }

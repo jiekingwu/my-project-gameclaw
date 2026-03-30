@@ -1,0 +1,12 @@
+<!-- components/chat-bubble/chat-bubble.wxml — Phase 2 -->
+<view class="chat-msg {{role}}">
+  <view class="msg-avatar {{role === 'ai' ? 'ai-avatar' : 'user-avatar'}}">
+    {{role === 'ai' ? '🔫' : '🎮'}}
+  </view>
+  <view class="bubble {{role === 'ai' ? 'ai-bubble' : 'user-bubble'}}">
+    <!-- AI 消息用 rich-text 渲染 Markdown -->
+    <rich-text wx:if="{{role === 'ai'}}" nodes="{{richContent || content}}" />
+    <!-- 用户消息纯文本 -->
+    <text wx:else>{{content}}</text>
+  </view>
+</view>

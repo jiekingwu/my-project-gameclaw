@@ -1,0 +1,129 @@
+/* components/welcome-card/welcome-card.wxss — 微信浅色风 */
+
+.welcome-card {
+  background: var(--bg-card);
+  border-radius: 16rpx;
+  padding: 28rpx;
+  box-shadow: var(--shadow-card);
+  margin-bottom: 20rpx;
+}
+
+.welcome-top {
+  display: flex;
+  align-items: center;
+  gap: 18rpx;
+  margin-bottom: 16rpx;
+}
+
+.welcome-avatar {
+  width: 76rpx;
+  height: 76rpx;
+  border-radius: 16rpx;
+  background: linear-gradient(135deg, #3D7EFF, #6BA3FF);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36rpx;
+  box-shadow: 0 4rpx 12rpx rgba(61,126,255,0.15);
+}
+
+.welcome-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--text-1);
+  display: block;
+}
+
+.welcome-sub {
+  font-size: 22rpx;
+  color: var(--text-3);
+}
+
+.welcome-sub-row {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  margin-top: 4rpx;
+}
+
+.online-tag {
+  font-size: 20rpx;
+  color: var(--success);
+  font-weight: 500;
+}
+
+.welcome-desc {
+  font-size: 24rpx;
+  color: var(--text-2);
+  line-height: 1.7;
+  margin-bottom: 20rpx;
+  padding: 14rpx 18rpx;
+  background: var(--bg-input);
+  border-radius: 12rpx;
+}
+
+/* 快捷技能网格 */
+.quick-skills {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6rpx;
+}
+
+.skill-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+  padding: 14rpx 4rpx;
+  border-radius: 12rpx;
+  transition: background 0.15s;
+}
+
+.skill-item:active {
+  background: var(--bg-hover);
+}
+
+.skill-icon {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  position: relative;
+}
+
+.skill-icon .notif {
+  position: absolute;
+  top: -6rpx;
+  right: -6rpx;
+  min-width: 28rpx;
+  height: 28rpx;
+  background: var(--danger);
+  border-radius: 14rpx;
+  font-size: 16rpx;
+  font-weight: 700;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5rpx;
+  border: 3rpx solid var(--bg-card);
+}
+
+.skill-label {
+  font-size: 20rpx;
+  color: var(--text-2);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* 图标色块 */
+.ico-blue { background: rgba(61,126,255,0.08); }
+.ico-pink { background: rgba(250,81,81,0.06); }
+.ico-green { background: rgba(7,193,96,0.08); }
+.ico-orange { background: rgba(250,157,59,0.08); }
+.ico-purple { background: rgba(147,112,255,0.08); }
+.ico-cyan { background: rgba(38,191,191,0.08); }
+.ico-red { background: rgba(250,81,81,0.08); }

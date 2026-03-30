@@ -1,0 +1,112 @@
+<!-- pages/chat/chat.wxml -->
+<view class="chat-page" style="padding-top: {{statusBarHeight}}px;">
+
+  <!-- 导航栏 -->
+  <view class="custom-nav">
+    <view class="nav-left">
+      <view class="nav-btn" hover-class="nav-btn-hover" hover-stay-time="100" bindtap="goSkills">
+        <text class="nav-btn-icon">🧩</text>
+        <text class="nav-btn-text">技能</text>
+      </view>
+      <view class="nav-btn" hover-class="nav-btn-hover" hover-stay-time="100" bindtap="goProfile">
+        <text class="nav-btn-icon">👤</text>
+        <text class="nav-btn-text">我的</text>
+      </view>
+    </view>
+    <view class="nav-center">
+      <view class="nav-avatar">🔫<view class="online-dot {{isOnline ? '' : 'off'}}"></view></view>
+      <text class="nav-title">ZhijiClaw</text>
+    </view>
+    <view class="nav-right"></view>
+  </view>
+
+  <!-- 聊天内容区（flex:1 自适应高度） -->
+  <scroll-view
+    class="chat-body"
+    scroll-y
+    scroll-into-view="{{scrollToView}}"
+    enhanced
+    show-scrollbar="{{false}}"
+    bounces="{{false}}"
+  >
+    <view class="time-divider">今天 {{currentTime}}</view>
+
+    <welcome-card
+      days-played="{{playerData.daysPlayed}}"
+      bind:skillTap="onSkillTap"
+    />
+
+    <alert-card bind:alertTap="onAlertTap" />
+
+    <suggestion-chips
+      wx:if="{{showInitialChips}}"
+      chips="{{initialChips}}"
+      bind:chipTap="onChipTap"
+    />
+
+    <block wx:for="{{messages}}" wx:key="id">
+      <chat-bubble
+        wx:if="{{item.role === 'ai'}}"
+        role="ai"
+        content="{{item.content}}"
+      />
+      <chat-bubble
+        wx:if="{{item.role === 'user'}}"
+        role="user"
+        content="{{item.content}}"
+      />
+      <!-- 提醒确认卡片（AI设置提醒后显示） -->
+      <reminder-confirm
+        wx:if="{{item.calendarEvent && item.showCalendarConfirm}}"
+        show="{{true}}"
+        content="{{item.calendarEvent.title}}"
+        time="{{item.calendarEvent.displayTime}}"
+        bind:confirm="onCalendarConfirm"
+        bind:cancel="onCalendarCancel"
+        data-msg-id="{{item.id}}"
+      />
+      <suggestion-chips
+        wx:if="{{item.role === 'ai' && item.chips && item.chips.length > 0}}"
+        chips="{{item.chips}}"
+        bind:chipTap="onChipTap"
+      />
+    </block>
+
+    <view wx:if="{{isTyping}}" class="chat-msg ai">
+      <view class="msg-avatar ai-avatar">🔫</view>
+      <view class="chat-bubble-wrap ai-bubble">
+        <view class="typing-indicator">
+          <view class="typing-dot"></view>
+          <view class="typing-dot"></view>
+          <view class="typing-dot"></view>
+        </view>
+      </view>
+    </view>
+
+    <view id="scroll-bottom" style="height: 20rpx;"></view>
+  </scroll-view>
+
+  <!-- 底部输入区域 -->
+  <view class="chat-input-area">
+    <view class="input-row">
+      <view class="input-wrapper">
+        <input
+          class="chat-input"
+          placeholder="武器到期、省钻、战绩…问我就对了"
+          placeholder-style="color: #B2B2B2;"
+          value="{{inputText}}"
+          bindinput="onInput"
+          bindconfirm="onSend"
+          confirm-type="send"
+          cursor-spacing="16"
+          hold-keyboard="{{true}}"
+        />
+      </view>
+      <view class="send-btn {{inputText.length > 0 ? 'send-btn-active' : ''}}" bindtap="onSend">
+        <text class="send-icon">➤</text>
+      </view>
+    </view>
+    <view class="input-hint">内容由AI生成，仅供参考</view>
+  </view>
+
+</view>

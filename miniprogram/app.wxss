@@ -1,0 +1,54 @@
+/* ==================== ZhijiClaw 全局设计系统 ==================== */
+/* 风格：微信/元宝 浅色 · 干净 · 原生感 · 轻盈 */
+
+page {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+
+  /* ---- 主色调 ---- */
+  --primary: #3D7EFF;              /* 明亮知性蓝，比蓝紫更清爽 */
+  --primary-light: #5B93FF;        /* 浅一档 */
+  --primary-10: rgba(61,126,255,0.08);
+  --primary-20: rgba(61,126,255,0.16);
+
+  /* ---- 背景层级 ---- */
+  --bg: #EDEDED;                   /* 微信经典灰底 */
+  --bg-card: #FFFFFF;
+  --bg-input: #F5F5F5;            /* 输入框灰 */
+  --bg-hover: #ECECEC;            /* 按下态 */
+
+  /* ---- 文字层级 ---- */
+  --text-1: #111111;               /* 标题/正文 */
+  --text-2: #555555;               /* 次要信息 */
+  --text-3: #888888;               /* 辅助说明 */
+  --text-4: #B2B2B2;               /* 最弱占位 */
+
+  /* ---- 语义色 ---- */
+  --success: #07C160;              /* 微信绿 */
+  --warning: #FA9D3B;
+  --danger: #FA5151;
+
+  /* ---- 分割 & 阴影 ---- */
+  --border: #E6E6E6;
+  --divider: #F0F0F0;
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.04);
+  --shadow-float: 0 4px 16px rgba(0,0,0,0.06);
+
+  /* ---- 字体 ---- */
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', sans-serif;
+  background: var(--bg);
+  color: var(--text-1);
+  font-size: 28rpx;
+  line-height: 1.5;
+}
+
+/* ==================== 图标底色工具类 ==================== */
+.ico-blue { background: rgba(61,126,255,0.08); }
+.ico-pink { background: rgba(250,81,81,0.06); }
+.ico-green { background: rgba(7,193,96,0.08); }
+.ico-orange { background: rgba(250,157,59,0.08); }
+.ico-purple { background: rgba(147,112,255,0.08); }
+.ico-cyan { background: rgba(38,191,191,0.08); }
+.ico-red { background: rgba(250,81,81,0.08); }

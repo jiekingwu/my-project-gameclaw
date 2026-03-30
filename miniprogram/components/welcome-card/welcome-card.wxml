@@ -1,0 +1,55 @@
+<!-- components/welcome-card/welcome-card.wxml -->
+<view class="welcome-card">
+  <view class="welcome-top">
+    <view class="welcome-avatar">🔫</view>
+    <view class="welcome-text">
+      <text class="welcome-title">你好，主人 👋</text>
+      <view class="welcome-sub-row">
+        <text class="welcome-sub">今天是你征战CF的第 {{daysPlayed}} 天</text>
+        <view class="online-tag">● 在线守护中</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="welcome-desc">
+    你的专属CF手游AI助理，帮你追踪武器到期、省钻分析、战绩规划，有啥问我就行~
+  </view>
+
+  <view class="quick-skills">
+    <view class="skill-item" data-skill="道具过期" bindtap="onSkillTap">
+      <view class="skill-icon ico-red">
+        <text>⏰</text>
+        <view class="notif">3</view>
+      </view>
+      <text class="skill-label">到期提醒</text>
+    </view>
+    <view class="skill-item" data-skill="省钱攻略" bindtap="onSkillTap">
+      <view class="skill-icon ico-orange"><text>💎</text></view>
+      <text class="skill-label">省钻攻略</text>
+    </view>
+    <view class="skill-item" data-skill="战力分析" bindtap="onSkillTap">
+      <view class="skill-icon ico-blue"><text>📊</text></view>
+      <text class="skill-label">战绩分析</text>
+    </view>
+    <view class="skill-item" data-skill="成长规划" bindtap="onSkillTap">
+      <view class="skill-icon ico-green"><text>📈</text></view>
+      <text class="skill-label">段位规划</text>
+    </view>
+    <view class="skill-item" data-skill="自助查询" bindtap="onSkillTap">
+      <view class="skill-icon ico-purple"><text>🔍</text></view>
+      <text class="skill-label">枪械查询</text>
+    </view>
+    <view class="skill-item" data-skill="阵容推荐" bindtap="onSkillTap">
+      <view class="skill-icon ico-cyan"><text>🎯</text></view>
+      <text class="skill-label">配枪推荐</text>
+    </view>
+    <view class="skill-item" data-skill="福利中心" bindtap="onSkillTap">
+      <view class="skill-icon ico-pink"><text>🎁</text></view>
+      <text class="skill-label">福利中心</text>
+    </view>
+    <view class="skill-item" bindtap="onMoreTap">
+      <view class="skill-icon ico-blue"><text>🧩</text></view>
+      <text class="skill-label">更多技能</text>
+    </view>
+  </view>
+</view>

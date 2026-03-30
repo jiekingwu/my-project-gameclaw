@@ -1,0 +1,78 @@
+<!-- pages/skills/skills.wxml -->
+<view class="skills-page">
+  <view class="tips-bar">
+    💡 开启技能后，ZhijiClaw 会主动为你提供对应服务。关闭后将不再接收相关推送和提醒。
+  </view>
+
+  <!-- 核心技能 -->
+  <view class="skill-group">
+    <text class="group-title">🔥 核心技能</text>
+
+    <view class="skill-item" wx:for="{{coreSkills}}" wx:key="name">
+      <view class="skill-icon {{item.iconBg}}"><text>{{item.icon}}</text></view>
+      <view class="skill-info">
+        <text class="skill-name">{{item.name}}</text>
+        <text class="skill-desc">{{item.desc}}</text>
+        <text class="skill-status {{item.enabled ? 'on' : 'off'}}">
+          {{item.enabled ? item.statusText : '已关闭'}}
+        </text>
+      </view>
+      <switch
+        class="skill-switch"
+        checked="{{item.enabled}}"
+        color="#3D7EFF"
+        data-index="{{index}}"
+        data-group="coreSkills"
+        bindchange="onToggle"
+      />
+    </view>
+  </view>
+
+  <!-- 查询与分析 -->
+  <view class="skill-group">
+    <text class="group-title">🔍 查询与分析</text>
+
+    <view class="skill-item" wx:for="{{querySkills}}" wx:key="name">
+      <view class="skill-icon {{item.iconBg}}"><text>{{item.icon}}</text></view>
+      <view class="skill-info">
+        <text class="skill-name">{{item.name}}</text>
+        <text class="skill-desc">{{item.desc}}</text>
+        <text class="skill-status {{item.enabled ? 'on' : 'off'}}">
+          {{item.enabled ? item.statusText : '已关闭'}}
+        </text>
+      </view>
+      <switch
+        class="skill-switch"
+        checked="{{item.enabled}}"
+        color="#3D7EFF"
+        data-index="{{index}}"
+        data-group="querySkills"
+        bindchange="onToggle"
+      />
+    </view>
+  </view>
+
+  <!-- 福利与关怀 -->
+  <view class="skill-group">
+    <text class="group-title">🎁 福利与关怀</text>
+
+    <view class="skill-item" wx:for="{{welfareSkills}}" wx:key="name">
+      <view class="skill-icon {{item.iconBg}}"><text>{{item.icon}}</text></view>
+      <view class="skill-info">
+        <text class="skill-name">{{item.name}}</text>
+        <text class="skill-desc">{{item.desc}}</text>
+        <text class="skill-status {{item.enabled ? 'on' : 'off'}}">
+          {{item.enabled ? item.statusText : '已关闭'}}
+        </text>
+      </view>
+      <switch
+        class="skill-switch"
+        checked="{{item.enabled}}"
+        color="#3D7EFF"
+        data-index="{{index}}"
+        data-group="welfareSkills"
+        bindchange="onToggle"
+      />
+    </view>
+  </view>
+</view>

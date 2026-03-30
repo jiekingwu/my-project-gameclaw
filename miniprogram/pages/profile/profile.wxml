@@ -1,0 +1,93 @@
+<!-- pages/profile/profile.wxml -->
+<view class="profile-page">
+  <!-- 头部 -->
+  <view class="profile-header">
+    <view class="avatar">🎮</view>
+    <text class="nickname">{{gameRole ? gameRole.nickname : (playerData.nickname || '玩家')}}</text>
+    <view class="rank-tag" wx:if="{{gameRole.server}}">{{gameRole.server}}</view>
+    <view class="rank-tag" wx:elif="{{playerData.rank && playerData.rank !== '未知'}}">🏅 {{playerData.rank}} · KD {{playerData.kd}}</view>
+  </view>
+
+  <!-- 数据统计 -->
+  <view class="stats-row">
+    <view class="stat-item">
+      <text class="stat-num">{{playerData.daysPlayed || 0}}</text>
+      <text class="stat-label">征战天数</text>
+    </view>
+    <view class="stat-item">
+      <text class="stat-num">{{playerData.diamondsSaved || 0}}💎</text>
+      <text class="stat-label">AI帮省</text>
+    </view>
+    <view class="stat-item">
+      <text class="stat-num">{{playerData.weaponsGuarded || 0}}</text>
+      <text class="stat-label">武器守护</text>
+    </view>
+    <view class="stat-item">
+      <text class="stat-num">{{playerData.kd || 0}}</text>
+      <text class="stat-label">KD比</text>
+    </view>
+  </view>
+
+  <!-- 菜单列表 -->
+  <view class="menu-list">
+    <!-- 游戏角色（置顶） -->
+    <view class="menu-item" hover-class="menu-item-hover" hover-stay-time="100" bindtap="onEditRole">
+      <view class="menu-icon ico-cyan"><text>👤</text></view>
+      <view class="menu-text">
+        <text class="menu-title">{{gameRole ? '游戏角色' : '添加游戏角色'}}</text>
+        <text class="menu-desc">{{gameRole ? gameRole.nickname + (gameRole.server ? ' · ' + gameRole.server : '') : '绑定后可显示你的游戏信息'}}</text>
+      </view>
+      <view class="menu-extra">
+        <text wx:if="{{!gameRole}}" class="add-tag">去添加</text>
+        <text wx:else>编辑</text>
+        <text class="arrow">›</text>
+      </view>
+    </view>
+
+    <!-- 其他菜单 -->
+    <view class="menu-item" wx:for="{{menuItems}}" wx:key="title"
+          hover-class="menu-item-hover" hover-stay-time="100"
+          bindtap="onMenuTap" data-index="{{index}}">
+      <view class="menu-icon {{item.iconBg}}"><text>{{item.icon}}</text></view>
+      <view class="menu-text">
+        <text class="menu-title">{{item.title}}</text>
+        <text class="menu-desc" wx:if="{{item.desc}}">{{item.desc}}</text>
+      </view>
+      <view class="menu-extra">
+        <text wx:if="{{item.badge}}" class="badge">{{item.badge}}</text>
+        <text wx:if="{{item.extra}}">{{item.extra}}</text>
+        <text class="arrow">›</text>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- 添加/编辑游戏角色弹窗 -->
+<view class="modal-mask {{showRoleModal ? 'modal-show' : ''}}" bindtap="onCloseModal">
+  <view class="modal-body" catchtap="">
+    <text class="modal-title">{{gameRole ? '编辑游戏角色' : '添加游戏角色'}}</text>
+
+    <view class="form-group">
+      <text class="form-label">角色昵称 *</text>
+      <input class="form-input" placeholder="你在CF手游里的名字"
+             value="{{roleForm.nickname}}" bindinput="onRoleNickname" />
+    </view>
+
+    <view class="form-group">
+      <text class="form-label">服务器/大区</text>
+      <input class="form-input" placeholder="如：QQ区、微信区"
+             value="{{roleForm.server}}" bindinput="onRoleServer" />
+    </view>
+
+    <view class="form-group">
+      <text class="form-label">游戏ID</text>
+      <input class="form-input" placeholder="方便查询战绩（选填）"
+             value="{{roleForm.gameId}}" bindinput="onRoleGameId" />
+    </view>
+
+    <view class="modal-btns">
+      <view class="modal-btn cancel" bindtap="onCloseModal">取消</view>
+      <view class="modal-btn confirm" bindtap="onSaveRole">保存</view>
+    </view>
+  </view>
+</view>

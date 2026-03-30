@@ -1,0 +1,11 @@
+{
+  "navigationStyle": "custom",
+  "disableScroll": true,
+  "usingComponents": {
+    "chat-bubble": "/components/chat-bubble/chat-bubble",
+    "suggestion-chips": "/components/suggestion-chips/suggestion-chips",
+    "welcome-card": "/components/welcome-card/welcome-card",
+    "alert-card": "/components/alert-card/alert-card",
+    "reminder-confirm": "/components/reminder-confirm/reminder-confirm"
+  }
+}

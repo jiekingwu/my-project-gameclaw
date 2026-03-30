@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZhijiClaw KM 配图</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, 'PingFang SC', 'Helvetica Neue', sans-serif; background: #f5f6fa; color: #2d3436; line-height: 1.6; padding: 40px; }
+  .diagram { background: #fff; border-radius: 16px; padding: 40px; margin-bottom: 60px; box-shadow: 0 2px 20px rgba(0,0,0,0.06); max-width: 900px; margin-left: auto; margin-right: auto; }
+  .diagram h2 { font-size: 22px; margin-bottom: 8px; color: #2d3436; }
+  .diagram .subtitle { font-size: 14px; color: #636e72; margin-bottom: 28px; }
+  .diagram-label { text-align: center; font-size: 13px; color: #b2bec3; margin-top: 12px; }
+
+  /* 图1: 整体架构 */
+  .arch-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  .arch-layer { border-radius: 12px; padding: 18px 22px; position: relative; }
+  .arch-layer .layer-title { font-weight: 700; font-size: 14px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .arch-layer .layer-title .tag { font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 500; }
+  .layer-user { background: #edf2ff; border: 1.5px solid #bac8ff; }
+  .layer-user .tag { background: #4c6ef5; color: #fff; }
+  .layer-gateway { background: #fff3e0; border: 1.5px solid #ffcc80; }
+  .layer-gateway .tag { background: #ff9800; color: #fff; }
+  .layer-ai { background: #f3e5f5; border: 1.5px solid #ce93d8; }
+  .layer-ai .tag { background: #9c27b0; color: #fff; }
+  .layer-skill { background: #e8f5e9; border: 1.5px solid #a5d6a7; }
+  .layer-skill .tag { background: #4caf50; color: #fff; }
+  .layer-data { background: #fce4ec; border: 1.5px solid #f48fb1; }
+  .layer-data .tag { background: #e91e63; color: #fff; }
+  .layer-bg { background: #eceff1; border: 1.5px solid #b0bec5; }
+  .layer-bg .tag { background: #607d8b; color: #fff; }
+  .modules { display: flex; flex-wrap: wrap; gap: 8px; }
+  .mod { background: rgba(255,255,255,0.7); border: 1px solid rgba(0,0,0,0.08); border-radius: 8px; padding: 6px 14px; font-size: 13px; }
+  .arrow-down { text-align: center; font-size: 20px; color: #b2bec3; margin: 4px 0; }
+
+  /* 图2: 对话生命周期 */
+  .lifecycle { display: flex; flex-direction: column; gap: 0; }
+  .step { display: flex; align-items: flex-start; gap: 16px; position: relative; }
+  .step-num { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; color: #fff; flex-shrink: 0; position: relative; z-index: 1; }
+  .step-line { position: absolute; left: 17px; top: 36px; width: 2px; height: calc(100% - 4px); background: #dfe6e9; z-index: 0; }
+  .step:last-child .step-line { display: none; }
+  .step-content { flex: 1; padding-bottom: 24px; }
+  .step-content h4 { font-size: 15px; margin-bottom: 4px; }
+  .step-content p { font-size: 13px; color: #636e72; }
+  .step-content .time-tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 4px; background: #f1f3f5; color: #636e72; margin-top: 4px; }
+  .c1 { background: #4c6ef5; } .c2 { background: #f59f00; }
+  .c3 { background: #9c27b0; } .c4 { background: #2196f3; }
+  .c5 { background: #4caf50; } .c6 { background: #78909c; }
+  .c7 { background: #e91e63; }
+
+  /* 图3: 灵魂系统 */
+  .soul-layers { display: flex; flex-direction: column; gap: 14px; }
+  .soul-layer { border-radius: 12px; padding: 16px 20px; display: flex; align-items: flex-start; gap: 16px; }
+  .soul-icon { font-size: 28px; flex-shrink: 0; margin-top: 2px; }
+  .soul-info h4 { font-size: 15px; margin-bottom: 4px; }
+  .soul-info p { font-size: 13px; color: #636e72; }
+  .soul-info .freq { font-size: 11px; display: inline-block; padding: 2px 8px; border-radius: 4px; margin-top: 6px; }
+  .s1 { background: #f8f9fa; border: 1.5px solid #dee2e6; } .s1 .freq { background: #dee2e6; color: #495057; }
+  .s2 { background: #fff8e1; border: 1.5px solid #ffecb3; } .s2 .freq { background: #ffecb3; color: #f57f17; }
+  .s3 { background: #e8f5e9; border: 1.5px solid #a5d6a7; } .s3 .freq { background: #a5d6a7; color: #2e7d32; }
+
+  /* 图4: 双通道画像 */
+  .dual-ch { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .ch-card { border-radius: 12px; padding: 20px; }
+  .ch-fast { background: #e3f2fd; border: 1.5px solid #90caf9; }
+  .ch-slow { background: #fce4ec; border: 1.5px solid #f48fb1; }
+  .ch-card h4 { font-size: 15px; margin-bottom: 6px; }
+  .ch-card .perf { font-size: 26px; font-weight: 800; margin: 8px 0; }
+  .ch-fast .perf { color: #1565c0; }
+  .ch-slow .perf { color: #c62828; }
+  .ch-card ul { list-style: none; padding: 0; }
+  .ch-card li { font-size: 13px; color: #636e72; padding: 3px 0; }
+  .ch-card li::before { content: '•'; margin-right: 6px; }
+  .ch-flow { grid-column: 1 / -1; background: #f8f9fa; border-radius: 12px; padding: 16px 20px; text-align: center; font-size: 14px; color: #495057; border: 1.5px dashed #ced4da; }
+
+  /* 图5: 记忆三层 */
+  .mem-stack { display: flex; flex-direction: column; gap: 0; }
+  .mem-layer { padding: 18px 22px; display: flex; align-items: center; gap: 16px; }
+  .mem-l1 { background: #e3f2fd; border: 1.5px solid #90caf9; border-radius: 12px 12px 0 0; }
+  .mem-l2 { background: #fff8e1; border-left: 1.5px solid #ffecb3; border-right: 1.5px solid #ffecb3; }
+  .mem-l3 { background: #e8f5e9; border: 1.5px solid #a5d6a7; border-radius: 0 0 12px 12px; }
+  .mem-label { font-weight: 700; font-size: 13px; width: 80px; flex-shrink: 0; }
+  .mem-desc { font-size: 13px; color: #636e72; flex: 1; }
+  .mem-ttl { font-size: 12px; padding: 3px 10px; border-radius: 4px; background: rgba(0,0,0,0.06); white-space: nowrap; }
+</style>
+</head>
+<body>
+
+<!-- 图1: 整体架构总览 -->
+<div class="diagram">
+  <h2>图1：ZhijiClaw 整体架构</h2>
+  <p class="subtitle">微信小程序 + Node.js + SQLite + DeepSeek LLM · 单容器部署</p>
+  <div class="arch-grid">
+    <div class="arch-layer layer-user">
+      <div class="layer-title"><span class="tag">用户层</span> 微信小程序</div>
+      <div class="modules">
+        <div class="mod">💬 聊天页面</div>
+        <div class="mod">🧩 技能管理</div>
+        <div class="mod">👤 个人中心</div>
+        <div class="mod">📱 在线/离线双模式</div>
+        <div class="mod">🔄 10秒消息轮询</div>
+      </div>
+    </div>
+    <div class="arrow-down">▼</div>
+    <div class="arch-layer layer-gateway">
+      <div class="layer-title"><span class="tag">网关层</span> Gateway · 神经中枢</div>
+      <div class="modules">
+        <div class="mod">🔐 JWT 鉴权</div>
+        <div class="mod">🧠 记忆加载</div>
+        <div class="mod">👻 灵魂注入</div>
+        <div class="mod">⚡ 正则门控</div>
+        <div class="mod">🔄 FC 循环(3轮)</div>
+        <div class="mod">⏱️ 三层超时保护</div>
+      </div>
+    </div>
+    <div class="arrow-down">▼</div>
+    <div class="arch-layer layer-ai">
+      <div class="layer-title"><span class="tag">AI 层</span> DeepSeek LLM + Function Calling</div>
+      <div class="modules">
+        <div class="mod">📋 16 个 Tool 定义</div>
+        <div class="mod">🔧 Tool Executor</div>
+        <div class="mod">👻 Soul Loader</div>
+        <div class="mod">🎭 Player Card 动态构建</div>
+      </div>
+    </div>
+    <div class="arrow-down">▼</div>
+    <div class="arch-layer layer-skill">
+      <div class="layer-title"><span class="tag">技能层</span> 5 个 Skill 模块</div>
+      <div class="modules">
+        <div class="mod">🔫 武器管理</div>
+        <div class="mod">📊 战绩分析</div>
+        <div class="mod">💎 钻石管家</div>
+        <div class="mod">✅ 每日任务</div>
+        <div class="mod">🌤️ 天气助手</div>
+      </div>
+    </div>
+    <div class="arrow-down">▼</div>
+    <div class="arch-layer layer-data">
+      <div class="layer-title"><span class="tag">数据层</span> SQLite · 11 张表</div>
+      <div class="modules">
+        <div class="mod">users</div>
+        <div class="mod">user_profiles</div>
+        <div class="mod">chat_sessions</div>
+        <div class="mod">weapons_inventory</div>
+        <div class="mod">match_records</div>
+        <div class="mod">reminders</div>
+        <div class="mod">daily_tasks</div>
+        <div class="mod">pending_messages</div>
+        <div class="mod">daily_logs</div>
+      </div>
+    </div>
+    <div class="arrow-down">▼</div>
+    <div class="arch-layer layer-bg">
+      <div class="layer-title"><span class="tag">后台服务</span></div>
+      <div class="modules">
+        <div class="mod">⏰ Cron Scanner (10秒)</div>
+        <div class="mod">📡 订阅消息推送</div>
+        <div class="mod">🔍 信号检测器</div>
+        <div class="mod">🧬 LLM 画像提取</div>
+      </div>
+    </div>
+  </div>
+  <p class="diagram-label">图1 — 部署在微信云托管，单 Docker 容器</p>
+</div>
+
+<!-- 图2: 对话生命周期 -->
+<div class="diagram">
+  <h2>图2：一次对话的完整生命周期</h2>
+  <p class="subtitle">从用户发消息到收到回复，中间经过了7个步骤</p>
+  <div class="lifecycle">
+    <div class="step">
+      <div class="step-num c1">1</div><div class="step-line"></div>
+      <div class="step-content">
+        <h4>鉴权 + 加载记忆</h4>
+        <p>JWT 验证身份 → 并行查询三层记忆（L1会话 + L2日志 + L3画像）</p>
+        <span class="time-tag">~10ms</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num c2">2</div><div class="step-line"></div>
+      <div class="step-content">
+        <h4>注入灵魂</h4>
+        <p>SOUL.md 精华提取 + Player Card 动态构建 → 拼成 system prompt</p>
+        <span class="time-tag">~5ms</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num c3">3</div><div class="step-line"></div>
+      <div class="step-content">
+        <h4>正则门控判断</h4>
+        <p>"提醒我""天气""战绩"等关键词 → 带 Tools 调 LLM<br>"你好""谢谢"等闲聊 → 不带 Tools，走快通道</p>
+        <span class="time-tag"><1ms</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num c4">4</div><div class="step-line"></div>
+      <div class="step-content">
+        <h4>LLM + Function Calling 循环</h4>
+        <p>LLM 自主决定调哪个 Tool → 执行 → 结果回传 → LLM 组织回复<br>最多 3 轮循环，每层都有超时保护</p>
+        <span class="time-tag">闲聊 ~2s · 功能 ~5-7s</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num c5">5</div><div class="step-line"></div>
+      <div class="step-content">
+        <h4>返回响应</h4>
+        <p>reply + chips + calendarEvent + meta → 前端渲染</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num c6">6</div><div class="step-line"></div>
+      <div class="step-content">
+        <h4>异步更新记忆</h4>
+        <p>L1 追加到会话 · L2 写入日志（不阻塞用户）</p>
+        <span class="time-tag">异步，不计入响应时间</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num c7">7</div>
+      <div class="step-content">
+        <h4>异步画像提取</h4>
+        <p>正则信号快筛（<1ms）→ 命中直接写画像<br>没命中 → LLM 画像提取（~2s）→ 合并存储</p>
+        <span class="time-tag">异步，不计入响应时间</span>
+      </div>
+    </div>
+  </div>
+  <p class="diagram-label">图2 — 步骤 6、7 异步执行，用户不等待</p>
+</div>
+
+<!-- 图3: 灵魂系统 -->
+<div class="diagram">
+  <h2>图3：灵魂系统三层结构</h2>
+  <p class="subtitle">静态人格 + 身份卡片 + 动态档案 = 一个可信的 AI 人格</p>
+  <div class="soul-layers">
+    <div class="soul-layer s1">
+      <div class="soul-icon">👻</div>
+      <div class="soul-info">
+        <h4>SOUL.md — 静态人格</h4>
+        <p>性格（活泼/傲娇/护短）、说话方式（称呼主人、emoji 适度、200字以内）、能力边界、情感规则</p>
+        <p>启动时加载缓存，extractSoulEssence() 只提取4个关键段落注入 prompt</p>
+        <span class="freq">极少更新 · 用户可通过起名触发修改</span>
+      </div>
+    </div>
+    <div class="soul-layer s2">
+      <div class="soul-icon">🪪</div>
+      <div class="soul-info">
+        <h4>IDENTITY.md — 身份卡片</h4>
+        <p>名字（ZhijiClaw）、物种（赛博小猫）、版本号（2.5.0）、能力标签、技术身份</p>
+        <span class="freq">版本迭代时更新</span>
+      </div>
+    </div>
+    <div class="soul-layer s3">
+      <div class="soul-icon">📋</div>
+      <div class="soul-info">
+        <h4>Player Card — 动态档案</h4>
+        <p>用户全量数据实时拼装：称呼、陪伴天数、段位/KD/胜率、武器仓库统计、任务进度、待触发提醒、玩家备注</p>
+        <p>LLM 每次对话都能看到最新的"主人是谁"</p>
+        <span class="freq">每次对话实时生成 · 从 DB 查询</span>
+      </div>
+    </div>
+  </div>
+  <p class="diagram-label">图3 — Player Card 越准确，AI 回答越像"真的认识你"</p>
+</div>
+
+<!-- 图4: 三层记忆 -->
+<div class="diagram">
+  <h2>图4：三层记忆架构</h2>
+  <p class="subtitle">即时 + 短期 + 长期，每次对话前并行加载</p>
+  <div class="mem-stack">
+    <div class="mem-layer mem-l1">
+      <div class="mem-label">L1 即时</div>
+      <div class="mem-desc">对话上下文窗口 · chat_sessions 表 · JSON 消息列表 · 最近6条截断注入 prompt</div>
+      <div class="mem-ttl">30分钟过期</div>
+    </div>
+    <div class="mem-layer mem-l2">
+      <div class="mem-label">L2 短期</div>
+      <div class="mem-desc">对话摘要日志 · daily_logs 表 · 每次对话记一条 · 用于审计和回溯</div>
+      <div class="mem-ttl">永久保存</div>
+    </div>
+    <div class="mem-layer mem-l3">
+      <div class="mem-label">L3 长期</div>
+      <div class="mem-desc">用户画像 · user_profiles 表 + meta JSON · 20+结构化字段 + 城市/别名/备注</div>
+      <div class="mem-ttl">永久保存</div>
+    </div>
+  </div>
+  <p class="diagram-label">图4 — L1 快速过期保持窗口精简，L3 通过信号检测自动更新</p>
+</div>
+
+<!-- 图5: 双通道画像提取 -->
+<div class="diagram">
+  <h2>图5：双通道画像提取策略</h2>
+  <p class="subtitle">"先快后慢" — 正则能搞定的不麻烦 LLM</p>
+  <div class="dual-ch">
+    <div class="ch-card ch-fast">
+      <h4>⚡ 快通道：正则信号检测</h4>
+      <div class="perf"><1ms</div>
+      <ul>
+        <li>10 类 30+ 条正则</li>
+        <li>零 LLM 成本</li>
+        <li>覆盖：段位/KD/钻石/城市/起名字/记笔记</li>
+        <li>命中后直接写 user_profiles</li>
+        <li>负向前瞻排除疑问句</li>
+      </ul>
+    </div>
+    <div class="ch-card ch-slow">
+      <h4>🧠 慢通道：LLM 画像提取</h4>
+      <div class="perf">~2s</div>
+      <ul>
+        <li>正则没命中时触发</li>
+        <li>消耗 ~200 token</li>
+        <li>覆盖：生日/职业/爱好/游戏目标等13类</li>
+        <li>纯功能性请求自动跳过</li>
+        <li>JSON 返回，增量合并到 meta.profile</li>
+      </ul>
+    </div>
+    <div class="ch-flow">
+      <strong>协作逻辑</strong>：用户消息 → 正则快筛 → 命中？直接写画像 : 交给 LLM 提取 → 两条路都异步，不阻塞响应
+    </div>
+  </div>
+  <p class="diagram-label">图5 — 既省钱又不漏信息</p>
+</div>
+
+<!-- 图6: 架构演进对比 -->
+<div class="diagram">
+  <h2>图6：架构演进 Phase 1 → Phase 2.5</h2>
+  <p class="subtitle">从关键词匹配到 LLM 自主决策</p>
+  <div style="overflow-x: auto;">
+    <table style="width:100%; border-collapse: collapse; font-size: 14px;">
+      <tr style="background: #f8f9fa;">
+        <th style="padding: 12px 16px; text-align: left; border-bottom: 2px solid #dee2e6;">维度</th>
+        <th style="padding: 12px 16px; text-align: left; border-bottom: 2px solid #dee2e6;">Phase 1 · 规则引擎</th>
+        <th style="padding: 12px 16px; text-align: left; border-bottom: 2px solid #dee2e6;">Phase 2.5 · Function Calling</th>
+      </tr>
+      <tr><td style="padding: 10px 16px; border-bottom: 1px solid #f1f3f5;">意图识别</td><td style="padding: 10px 16px; border-bottom: 1px solid #f1f3f5;">44 条关键词规则 + LLM fallback</td><td style="padding: 10px 16px; border-bottom: 1px solid #f1f3f5;">LLM 原生 Function Calling</td></tr>
+      <tr><td style="padding: 10px 16px; border-bottom: 1px solid #f1f3f5;">路由方式</td><td style="padding: 10px 16px; border-bottom: 1px solid #f1f3f5;">skill + action 二级路由</td><td style="padding: 10px 16px; border-bottom: 1px solid #f1f3f5;">tool_name 一级路由</td></tr>
+      <tr><td style="padding: 10px 16px; border-bottom: 1px solid #f1f3f5;">决策者</td><td style="padding: 10px 16px; border-bottom: 1px solid #f1f3f5;">代码（规则优先）</td><td style="padding: 10px 16px; border-bottom: 1px solid #f1f3f5;">LLM 自主决策</td></tr>
+      <tr><td style="padding: 10px 16px; border-bottom: 1px solid #f1f3f5;">扩展性</td><td style="padding: 10px 16px; border-bottom: 1px solid #f1f3f5;">新功能要加规则</td><td style="padding: 10px 16px; border-bottom: 1px solid #f1f3f5;">只需加 Tool 定义</td></tr>
+      <tr><td style="padding: 10px 16px; border-bottom: 1px solid #f1f3f5;">响应延迟</td><td style="padding: 10px 16px; border-bottom: 1px solid #f1f3f5;">规则命中 ~1ms</td><td style="padding: 10px 16px; border-bottom: 1px solid #f1f3f5;">全程 LLM ~5-7s</td></tr>
+      <tr><td style="padding: 10px 16px;">保留的智慧</td><td style="padding: 10px 16px;" colspan="2">needTools 正则 = 规则引擎的精简版，只用于门控（要不要带 Tools），不用于路由（调哪个 Tool）</td></tr>
+    </table>
+  </div>
+  <p class="diagram-label">图6 — Phase 1 的 decision-engine.js 保留作为架构演进文档</p>
+</div>
+
+</body>
+</html>
